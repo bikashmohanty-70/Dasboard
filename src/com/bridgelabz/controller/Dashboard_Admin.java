@@ -52,8 +52,11 @@ public class Dashboard_Admin extends HttpServlet
 				HttpSession session = request.getSession();
 				session.setAttribute("uname", username);
 				
-				RequestDispatcher requestDisp = request.getRequestDispatcher("dashboard.jsp");
-				requestDisp.forward(request, response);
+				
+//				response.sendRedirect("dashboard.jsp");
+				response.sendRedirect("FetchedData");
+//				RequestDispatcher requestDisp = request.getRequestDispatcher("dashboard.jsp");
+//				requestDisp.forward(request, response);
 			}
 			else
 			{

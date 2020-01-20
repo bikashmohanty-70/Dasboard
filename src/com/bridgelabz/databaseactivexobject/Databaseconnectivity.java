@@ -21,7 +21,7 @@ public class Databaseconnectivity implements IConnectivity
 	ResultSet resultSetForRegistration = null;
 	ResultSet resultSetForLogin = null;
 	Statement statement = null;
-
+	ResultSet resultsetData;
 
 	
 	
@@ -32,7 +32,7 @@ public class Databaseconnectivity implements IConnectivity
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(mysqlURL, databaseName, databasePassword);
-			statement = connection.createStatement();
+//			statement = connection.createStatement();
 		} 
 		catch (SQLException | ClassNotFoundException e) 
 		{
@@ -285,19 +285,43 @@ public class Databaseconnectivity implements IConnectivity
 	}
 	
 	@Override
-	public ResultSet readCompleteTable() 
+	public ResultSet readCompleteTable(String sql) 
 	{
-		ResultSet resultSet = null;
+		connection = connect();
+		System.out.println("Connection "+connection );
 		try 
 		{
-			resultSet = statement.executeQuery("SELECT * FROM user_register;");
+			statement = connection.createStatement();
+			System.out.println("Statement " +statement );
+		
+			resultsetData = statement.executeQuery(sql);
+			System.out.println("ResultSet: "+resultsetData);
 			
 		} 
 		catch (SQLException e) 
 		{
-			e.printStackTrace();
+			System.out.println("Database Connectivity readCompleteTable: "+e);
 		}
-		return resultSet;
+//		finally 
+//		{
+//			try 
+//			{
+//				if(resultsetData != null)
+//					resultsetData.close();
+//				
+//				if(statement != null)
+//					statement.close();
+//				
+//				if(connection != null)
+//					connection.close();
+//			} 
+//			catch (Exception e2) 
+//			{
+//				e2.printStackTrace();
+//			}
+//			
+//		}
+		return resultsetData;
 	}
 
 

@@ -1,6 +1,7 @@
 
 //Date Picker Bootstarp
 $(document).ready(function () {
+	
 	var loading = true;
 	$('#validationCustom03').datepicker({
 		uiLibrary: 'bootstrap'
@@ -138,14 +139,37 @@ $(document).ready(function () {
 			$('#contactErrorSection').text(responseText).css("color","red")
 //			loading = false;
 		});
-
 	});
 	
-//	
-//	$('#history').click(function(){
-//		$.get('fetchUserDetails',)
-//	});
 	
+//	$( "#sideMenu" ).find("#history").on('click', function(e){
+////		e.preventDefault();
+//		$('html, body').animate({
+//		    scrollTop: $("#tableDiv").offset().top
+//		}, 2000);		#wrapperClass > #sideMenu > #sideMenuBar > #sideMenuBarDropDown >#sideMenuBarDropDown > #submenu > li > 
+//	})
+	$("#wrapperClass > #sideMenu > #sideMenuBar > #sideMenuBarDropDown > ul#submenu.dropdown-menu.rightmenu > #reg_his > a#history").click(function(e){
+//		e.preventDefault();
+		alert("Clicked on Link"); 	
+//		$('html, body').animate({
+//		    scrollTop: $("#tableDiv").offset().top
+//		}, 2000);
+	});
+	
+	
+//	$('a[href*=\\#]:not([href=\\#])').on('click', function() {
+//		alert("Clicked on Link"); 	
+//        var target = $(this.hash);
+//        
+//        target = target.length ? target : $('[name=' + this.hash.substr(1) +']');
+//        if (target.length) {
+//            $('html,body').animate({
+//                scrollTop: target.offset().top
+//            }, 1000);
+//            return false;
+//        }
+//    });
+
 });
 
 
@@ -192,7 +216,9 @@ function disabaleButton(){
 }
 
 
-
+//$(function() {
+//    $('#tableDiv').load('FetchedData');
+//});
 
 
 

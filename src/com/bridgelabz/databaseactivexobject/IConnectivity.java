@@ -23,6 +23,6 @@ public interface IConnectivity {
 
 	int readContact(String contact);
 
-	ResultSet readCompleteTable();
+	ResultSet readCompleteTable(String sql);
 
 }

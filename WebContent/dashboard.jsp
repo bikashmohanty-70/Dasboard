@@ -1,3 +1,6 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="com.bridgelabz.databaseactivexobject.*" %>
+<%@ page import ="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,7 +12,6 @@
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<link rel="stylesheet" href="css\styleMain.css">
 
-
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
   	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -19,9 +21,8 @@
 	<title>DashBoard</title>
 </head>
 <body>
-
 	<%
-		if (session.getAttribute("uname") == null)
+		if(session.getAttribute("uname") == null)
 			response.sendRedirect("admin.jsp");
 	%>
 
@@ -53,7 +54,7 @@
     </div>
   </nav>
 
-<div class="wrapper">
+<div class="wrapper" id="wrapperClass">
   <div class="sidebar" id="sideMenu">
     <div id="toggle-btn" onclick="Menutoggler()">
       <span></span>
@@ -62,20 +63,20 @@
     </div>
     <img src="img\img_avatar.png" alt="">
     <!-- <h2>Sidebar</h2> -->
-    <ul>
+    <ul id="sideMenuBar">
       <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
-      <li class="dropdown">
+      <li class="dropdown" id="sideMenuBarDropDown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" ><i class="fas fa-address-card"></i>Registered Users <span class="caret"></span></a>
         <!-- <a href="#" ><i class="fas fa-address-card"></i>Registered Users</a> -->
-        <ul class="dropdown-menu rightmenu" aria-labelledby="dropdownMenu3">
-          <li><a href="#" id="FetchedData">Registration History</a></li>
-          <li><a href="#">Location</a></li>
-          <li><a href="#">Gender</a></li>
-          <li><a href="#">Age</a></li>
+        <ul class="dropdown-menu rightmenu" id="submenu" aria-labelledby="dropdownMenu3">
+          <li id="reg_his"><a href="#registration" id="history">Registration History</a></li>
+          <li><a href="#location">Location</a></li>
+          <li><a href="#gender">Gender</a></li>
+          <li><a href="#age">Age</a></li>
         </ul>
       </li>
-      <li><a href="#"><i class="fas fa-project-diagram"></i>Recent</a></li>
+      <li><a href="#" class="recent"><i class="fas fa-project-diagram"></i>Recent</a></li>
       <li><a href="#"><i class="fas fa-blog"></i>Blogs</a></li>
       <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li>
       <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
@@ -92,7 +93,7 @@
 <div class="container-fluid text-left body-container">
   <div class="row content">
     <div class="well" style="box-shadow: 1px 5px 10px #888888;">
-      <h4>Dashboard</h4>
+      <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"><h4 style="color: red;">4 users Unsubscribed Today.<a style="text-decoration: none; cursor: pointer">See Details.</a></h4></marquee>
       <p>Some text..</p>
     </div>
     <div class="row">
@@ -163,53 +164,178 @@
       </div>
     </div>
 
-    <div class="well" style="box-shadow: 1px 5px 10px #888888; overflow-x: auto;">
-      <h4>Dashboard</h4>
-      <table>
+    <div class="well toggleer" id="tableDiv" style="box-shadow: 1px 5px 10px #888888; overflow-x: auto;">
+      <h4 style="border-bottom: 1px solid gray;">Registered Users</h4>
+      
+      <table id="RegisterTable">
         <tr>
           <th>Id</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
+          <th>First Name</th>
+          <th>Last Name</th>
           <th>Email</th>
           <th>Username</th>
           <th>Password</th>
-          <th>Gender</th>
           <th>Dob</th>
+          <th>Gender</th>
+          <th>City</th>
           <th>State</th>
-          <th>Country</th>
-          <th>Pin</th>
           <th>Contact</th>
+          <th>Pin</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>Peter</td>
-          <td>Griffin</td>
-          <td>peter.griffin@gmail.com</td>
-          <td>PeterG12</td>
-          <td>Griffin@123</td>
-          <td>M</td>
-          <td>27/07/1992</td>
-          <td>California</td>
-          <td>united States</td>
-          <td>90201</td>
-          <td>1132652119</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Peter</td>
-          <td>Griffin</td>
-          <td>peter.griffin@gmail.com</td>
-          <td>PeterG12</td>
-          <td>Griffin@123</td>
-          <td>M</td>
-          <td>27/07/1992</td>
-          <td>California</td>
-          <td>united States</td>
-          <td>90201</td>
-          <td>1132652119</td>
-        </tr>
+        <%
+        
+        /* IConnectivity connectDatabase = new Databaseconnectivity();
+        connectDatabase.connect(); */
+        /* ResultSet resultset = connectDatabase.readCompleteTable(); */
+        ResultSet resultset = (ResultSet) session.getAttribute("dataForTable");
+        if(resultset == null)
+        {
+        	out.print("<script type='text/javascript'>alert('Could not establish connection to Database.. Server is Busy');");
+        	out.print("</script>");
+        }
+        else
+        {
+        	while(resultset.next())
+        	{
+        %>
+            	<tr>
+                	<td><%=resultset.getString(1)%></td>
+                	<td><%=resultset.getString(2)%></td>
+                	<td><%=resultset.getString(3)%></td>
+                	<td><%=resultset.getString(4)%></td>
+                	<td><%=resultset.getString(5)%></td>
+                	<td><%=resultset.getString(6)%></td>
+                	<td><%=resultset.getString(7)%></td>
+                	<td><%=resultset.getString(8)%></td>
+                	<td><%=resultset.getString(9)%></td>
+                	<td><%=resultset.getString(10)%></td>
+                	<td><%=resultset.getString(11)%></td>
+                	<td><%=resultset.getString(12)%></td>
+           		</tr>
+      <%
+        	}
+        }
+       %>
+      
       </table>
     </div>
+    
+    <!--Gender Section -->
+    <!--******************************************************************** -->
+    
+    <div class="well toggleer" id="tableDiv" style="box-shadow: 1px 5px 10px #888888; overflow-x: auto;">
+    
+    	<h4 style="border-bottom: 1px solid gray; background-color: #4b4276; color: white;">Male Users</h4>
+      
+      <table id="RegisterTable">
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Dob</th>
+          <th>Gender</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Contact</th>
+          <th>Pin</th>
+        </tr>
+        <%
+        
+        /* IConnectivity connectDatabase = new Databaseconnectivity();
+        connectDatabase.connect(); */
+        /* ResultSet resultset = connectDatabase.readCompleteTable(); */
+        ResultSet resultsetGender = (ResultSet) session.getAttribute("genderDataForTable");
+        if(resultsetGender == null)
+        {
+        	out.print("<script type='text/javascript'>alert('Could not establish connection to Database.. Server is Busy');");
+        	out.print("</script>");
+        }
+        else
+        {
+        	while(resultsetGender.next())
+        	{
+        %>
+            	<tr>
+                	<td><%=resultsetGender.getString(1)%></td>
+                	<td><%=resultsetGender.getString(2)%></td>
+                	<td><%=resultsetGender.getString(3)%></td>
+                	<td><%=resultsetGender.getString(4)%></td>
+                	<td><%=resultsetGender.getString(5)%></td>
+                	<td><%=resultsetGender.getString(6)%></td>
+                	<td><%=resultsetGender.getString(7)%></td>
+                	<td><%=resultsetGender.getString(8)%></td>
+                	<td><%=resultsetGender.getString(9)%></td>
+                	<td><%=resultsetGender.getString(10)%></td>
+                	<td><%=resultsetGender.getString(11)%></td>
+                	<td><%=resultsetGender.getString(12)%></td>
+           		</tr>
+      <%
+        	}
+        }
+       %>
+      
+      </table>
+      <br>
+      <!--**************************FEMALE****************************************** -->
+      <h4 style="border-bottom: 1px solid gray; background-color: #4b4276 ; color: white;">Female Users</h4>
+      
+      <table id="RegisterTable">
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Dob</th>
+          <th>Gender</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Contact</th>
+          <th>Pin</th>
+        </tr>
+        <%
+        
+        /* IConnectivity connectDatabase = new Databaseconnectivity();
+        connectDatabase.connect(); */
+        /* ResultSet resultset = connectDatabase.readCompleteTable(); */
+        ResultSet resultsetFemale = (ResultSet) session.getAttribute("FemalesDataForTable");
+        if(resultsetFemale == null)
+        {
+        	out.print("<script type='text/javascript'>alert('Could not establish connection to Database.. Server is Busy');");
+        	out.print("</script>");
+        }
+        else
+        {
+        	while(resultsetFemale.next())
+        	{
+        %>
+            	<tr>
+                	<td><%=resultsetFemale.getString(1)%></td>
+                	<td><%=resultsetFemale.getString(2)%></td>
+                	<td><%=resultsetFemale.getString(3)%></td>
+                	<td><%=resultsetFemale.getString(4)%></td>
+                	<td><%=resultsetFemale.getString(5)%></td>
+                	<td><%=resultsetFemale.getString(6)%></td>
+                	<td><%=resultsetFemale.getString(7)%></td>
+                	<td><%=resultsetFemale.getString(8)%></td>
+                	<td><%=resultsetFemale.getString(9)%></td>
+                	<td><%=resultsetFemale.getString(10)%></td>
+                	<td><%=resultsetFemale.getString(11)%></td>
+                	<td><%=resultsetFemale.getString(12)%></td>
+           		</tr>
+      <%
+        	}
+        }
+       %>
+      
+      </table>
+    
+    </div>
+    
   </div>
 </div>
 </div>
