@@ -1,0 +1,61 @@
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css');
+
+body{
+  /* background-image: url("C:/Users/Admin/OneDrive/Documents/Atom Projects/BridgeLabz/img/gradientRegister.jpg"); */
+  /* margin: 0;
+  padding: 0; */
+  font-family: sans-serif, Arial, Helvetica;
+  background: url(../img/gradientRegister.jpg);
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  /* background: url(../img/gradientRegister.jpg) no-repeat;
+  background-size: cover; */
+}
+
+.createAccountHeading{
+  width: auto;
+  top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+  margin: auto;
+
+}
+
+.createAccountHeading h1{
+  /* border-bottom: 3px solid #A6ABAB; */
+  /* padding-left: 30px; */
+}
+
+.forming{
+  width: 800px;
+  position: relative;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+  padding: 30px;
+  /* border-width: 2px;
+  border-style: solid;
+  border-color: #000; */
+  /* align-items: center; */
+}
+
+.form-design{
+  /* border-width: 2px;
+  border-style: solid;
+  border-color: #000; */
+  margin: 0 auto;
+  padding: 10px;
+  width: 700px;
+  /* margin: 100px 20px; */
+}
+
+.btn{
+  margin-top: 40px;
+  margin-left: inherit;
+}
