@@ -3,6 +3,7 @@ package com.bridgelabz.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,6 @@ import com.bridgelabz.databaseactivexobject.Databaseconnectivity;
 import com.bridgelabz.databaseactivexobject.IConnectivity;
 import com.bridgelabz.model.RegistrationModel;
 
-
 /**
  * Servlet implementation class FetchedData
  */
@@ -24,19 +24,25 @@ public class FetchedData extends HttpServlet
 {
 	static RegistrationModel registrationModel = new RegistrationModel();
 	static IConnectivity connectDatabase = new Databaseconnectivity();
+
 	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+
+
 		ResultSet resultSet1 = connectDatabase.readCompleteTable("SELECT * FROM user_register");
 		ResultSet resultSet2 = connectDatabase.readCompleteTable("SELECT * FROM user_register WHERE gender = 'm'");
 		ResultSet resultSet3 = connectDatabase.readCompleteTable("SELECT * FROM user_register WHERE gender = 'f'");
 		HttpSession session = request.getSession();
-      
+
+
 		if(session.getAttribute("uname") != null)
 		{
 			session.setAttribute("dataForTable", resultSet1);
 			session.setAttribute("genderDataForTable", resultSet2);
 			session.setAttribute("FemalesDataForTable", resultSet3);
+			
 
 			RequestDispatcher requestRd = request.getRequestDispatcher("dashboard.jsp");
 			try 
@@ -62,7 +68,7 @@ public class FetchedData extends HttpServlet
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 }
