@@ -46,7 +46,7 @@
               <li><a href="#"><span class="glyphicon glyphicon-list"></span> Activity Log</a></li>
               <li><a href="#"><span class="glyphicon glyphicon-trash"></span> Delete a/c</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+              <li><a href="SignOut"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
             </ul>
           </li>
         </ul>
@@ -153,7 +153,7 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <div class="well" id="vicky" style="box-shadow: 1px 5px 8px #888888;">
+        <div class="well" style="box-shadow: 1px 5px 8px #888888;">
           <canvas id="canvasChart"></canvas>
         </div>
       </div>
@@ -167,7 +167,7 @@
     <div class="well toggleer" id="tableDiv" style="box-shadow: 1px 5px 10px #888888; overflow-x: auto;">
       <h4 style="border-bottom: 1px solid gray;">Registered Users</h4>
       
-      <table id="RegisterTable">
+      <table id="RegisterTable" aria-describedby="tableDiv">
         <tr>
           <th>Id</th>
           <th>First Name</th>
@@ -227,7 +227,7 @@
     
     	<h4 style="border-bottom: 1px solid gray; background-color: #4b4276; color: white;">Male Users</h4>
       
-      <table id="RegisterTable">
+      <table id="RegisterTable" aria-describedby="tableDiv">
         <tr>
           <th>Id</th>
           <th>First Name</th>
@@ -282,7 +282,7 @@
       <!--**************************FEMALE****************************************** -->
       <h4 style="border-bottom: 1px solid gray; background-color: #4b4276 ; color: white;">Female Users</h4>
       
-      <table id="RegisterTable">
+      <table id="RegisterTable" aria-describedby="tableDiv">
         <tr>
           <th>Id</th>
           <th>First Name</th>
@@ -361,9 +361,11 @@ Below Code Will not work on Chrome... Otherwise it works fine
 // });
 // $( "#output" ).load( "TotalNumberOfMale&Female.html #target" );
 </script>
-<script type="text/javascript" src="js\graph-and-chats.js"></script>
-<script type="text/javascript" src="js\Chart-Pie.js"></script>
+<!-- <script type="text/javascript" src="js\graph-and-chats.js"></script> -->
+<!-- <script type="text/javascript" src="js\Chart-Pie.js"></script> -->
 <script type="text/javascript" src="js\script.js"></script>
+<script type="text/javascript" src="js\BarChart.js"></script>
+<script type="text/javascript" src="js\MaleFemalePieChart.js"></script>
 
 </body>
 </html>
